@@ -49,6 +49,9 @@ public class Group extends Hitbox{
     private Color foregroundColor;
     private Color selectedColor;
     private double strokeSize;
+    
+    private BasicStroke stroke;
+    
     private boolean selected;
     public Group(String name, Rectangle2D.Double hitbox, Color backgroundColor, Color foregroundColor, Color selectedColor){
         super(hitbox);
@@ -88,6 +91,7 @@ public class Group extends Hitbox{
         fontSize = fontSize*widthToResizeBy;
         stringHeight = stringHeight*heightToResizeBy;
         font = new Font(Font.SANS_SERIF, 0, (int)fontSize);
+        stroke = new BasicStroke((float)strokeSize);
     }
 
     @Override
@@ -110,7 +114,7 @@ public class Group extends Hitbox{
         }
         if(selected){
             gd.setColor(selectedColor);
-            gd.setStroke(new BasicStroke((float)strokeSize));
+            gd.setStroke(stroke);
             gd.drawRect((int)getHitbox().x, (int)getHitbox().y, (int)getHitbox().width, (int)getHitbox().height);
         }
     }

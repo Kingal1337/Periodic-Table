@@ -21,39 +21,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package periodic.table;
+package periodic.table.config;
 
-import javax.swing.JFrame;
-import periodic.table.config.Config;
-import periodic.table.config.FileManagement;
-import periodic.table.viewers.MainFrame;
-import periodic.table.viewers.MainPanel;
+import java.awt.BorderLayout;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.Scene;
+import javafx.scene.web.WebView;
+import javax.swing.JTextField;
 
 /**
  *
  * @author Alan Tsui
  */
-public class PeriodicTable {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        MainFrame frame = new MainFrame();
-        MainPanel panel = new MainPanel(FileManagement.open());
+public class Wiki extends JFXPanel{
+    private JTextField field;
+    public Wiki(String link){
+        setLayout(new BorderLayout());
+        field = new JTextField(link);
+        field.setEditable(false);
+        add(field, BorderLayout.NORTH);
         
-        frame.setTitle(Config.TITLE);
+        JFXPanel webPage = new JFXPanel();
+        Platform.runLater( () -> {
+           WebView webView = new WebView();
+           webView.getEngine().loadContent("<html>");
+           webView.getEngine().load(link);
+           webPage.setScene(new Scene(webView));
+        });
+        add(webPage, BorderLayout.CENTER);
         
-        frame.changePanel(panel);
-        
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(true);
-        frame.setMinimumSize(Config.MINIMUM_FRAME_SIZE);
-        frame.setPreferredSize(Config.MINIMUM_FRAME_SIZE);
-
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-
-        frame.setVisible(true);
     }
 }

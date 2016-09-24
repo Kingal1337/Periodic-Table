@@ -23,14 +23,12 @@
  */
 package periodic.table;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author Alan Tsui 
 */
-public class Element {
-    public static final Element EMPTY_ELEMENT = new Element("EMPTY", "EMPTY", "EMPTY", "EMPTY", "EMPTY", "EMPTY", "EMPTY", "EMPTY", "EMPTY", -1, -1);
+public class Element {    
+    public static final Element EMPTY_ELEMENT = new Element("EMPTY", "EMPTY", "EMPTY", "EMPTY", "EMPTY", "EMPTY", "EMPTY", "EMPTY", "EMPTY", "EMPTY", "EMPTY", -1, -1);
     private String atomicNumber;
     private String symbol;
     private String name;
@@ -40,11 +38,13 @@ public class Element {
     private String meltingPoint;
     private String elections;
     private String yearDiscovered;
+    private String bondingType;
+    private String density;
     
     private int group;
     private int row;
 
-    public Element(String atomicNumber, String symbol, String name, String weight, String type, String boilingPoint, String meltingPoint, String elections, String yearDiscovered, int group, int row) {
+    public Element(String atomicNumber, String symbol, String name, String weight, String type, String boilingPoint, String meltingPoint, String elections, String yearDiscovered, String bondingType, String density, int group, int row) {
         this.atomicNumber = atomicNumber;
         this.symbol = symbol;
         this.name = name;
@@ -54,8 +54,26 @@ public class Element {
         this.meltingPoint = meltingPoint;
         this.elections = elections;
         this.yearDiscovered = yearDiscovered;
+        this.bondingType = bondingType;
+        this.density = density;
         this.group = group;
         this.row = row;
+    }
+    
+    /**
+     * P - Protons
+     * E - Electrons
+     * N - Neutrons
+     * @param ions  number of ions atom has
+     * @return  returns an array of Protons, Elections, and Neutrons
+     */
+    public int[] getPEN(int ions){
+        int[] pen = new int[3];
+        pen[0] = alanutilites.math.Number.isInteger(atomicNumber) ? Integer.parseInt(atomicNumber) : -1;
+        pen[1] = pen[0] == -1 ? -1 : ions == 0 ? pen[0] : ions > 0 ? pen[0]-ions : pen[0]+Math.abs(ions);
+        String newWeight = weight.replaceAll("[()\\[\\]]", "");
+        pen[2] = alanutilites.math.Number.isDouble(newWeight) ? ((int)Math.round(Double.parseDouble(newWeight)))-Integer.parseInt(atomicNumber) : -1;
+        return pen;
     }
     
     /**
@@ -86,9 +104,6 @@ public class Element {
                 double boilingTemp = Double.parseDouble(boilingPoint);
                 double meltingTemp = Double.parseDouble(meltingPoint);
                 if(temperature <= meltingTemp && temperature <= boilingTemp){
-//                    if(name.equals("Boron")){
-////                        System.out.println("Cur : "+kelvin+" boil : "+boilingTemp+" melt : "+meltingTemp);
-//                    }
                     return 0;
                 }
             }
@@ -166,6 +181,22 @@ public class Element {
 
     public void setYearDiscovered(String yearDiscovered) {
         this.yearDiscovered = yearDiscovered;
+    }
+
+    public String getBondingType() {
+        return bondingType;
+    }
+
+    public void setBondingType(String bondingType) {
+        this.bondingType = bondingType;
+    }
+
+    public String getDensity() {
+        return density;
+    }
+
+    public void setDensity(String density) {
+        this.density = density;
     }
 
     public int getGroup() {

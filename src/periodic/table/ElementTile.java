@@ -28,8 +28,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import periodic.table.config.Config;
 
@@ -57,9 +55,15 @@ public class ElementTile extends Hitbox{
     private Color foregroundColor;
     private Color selectedColor;
     private double strokeSize;
+    private BasicStroke selectedStroke;
     private boolean selected;
     
     private boolean selectable;
+    
+    private boolean showSymbol;
+    private boolean showWeight;
+    private boolean showName;
+    private boolean showAtomNumber;
 
     public ElementTile(Element element, Rectangle2D.Double hitbox, Color backgroundColor, Color foregroundColor, Color selectedColor) {
         super(hitbox);
@@ -83,6 +87,11 @@ public class ElementTile extends Hitbox{
         otherTextFont = new Font(Font.SANS_SERIF, 0, (int)otherTextFontNumber);
         
         selectable = true;
+        
+        showSymbol = true;
+        showWeight = true;
+        showName = true;
+        showAtomNumber = true;
     }
     
     @Override
@@ -108,30 +117,35 @@ public class ElementTile extends Hitbox{
         int symbolFontSize = Text.getHeightOfString(symbolFont);
         
         gd.setFont(otherTextFont);
-        gd.drawString(element.getAtomicNumber()+"", (int)(getHitbox().x+textOffset), (int)(getHitbox().y+textOffset+otherTextFontSize));
+        if(showAtomNumber){
+            gd.drawString(element.getAtomicNumber()+"", (int)(getHitbox().x+textOffset), (int)(getHitbox().y+textOffset+otherTextFontSize));
+        }
         
         int lengthOfSymbol = Text.getLengthOfString(element.getSymbol(), symbolFont);
         String symbol = lengthOfSymbol >= (getHitbox().width-textOffset) ? Text.ellipsisText(element.getSymbol(), (int)getHitbox().width, symbolFont) : element.getSymbol();
-        if(symbol.equals("Symbol")){
-            System.out.println(getHitbox().width+" "+lengthOfSymbol);
-        }
         gd.setFont(symbolFont);
-        gd.drawString(symbol, (int)(getHitbox().x+textOffset), (int)(getHitbox().y+textOffset+otherTextFontSize+symbolFontSize));
+        if(showSymbol){
+            gd.drawString(symbol, (int)(getHitbox().x+textOffset), (int)(getHitbox().y+textOffset+otherTextFontSize+symbolFontSize));
+        }
                 
         int lengthOfElementName = Text.getLengthOfString(element.getName(), otherTextFont);
         String elementName = lengthOfElementName >= (getHitbox().width-textOffset) ? Text.ellipsisText(element.getName(), (int)getHitbox().width, otherTextFont) : element.getName();
         gd.setFont(otherTextFont);
-        gd.drawString(elementName, (int)(getHitbox().x+textOffset), (int)(getHitbox().y+textOffset+textOffset+otherTextFontSize+symbolFontSize+otherTextFontSize));
+        if(showName){
+            gd.drawString(elementName, (int)(getHitbox().x+textOffset), (int)(getHitbox().y+textOffset+textOffset+otherTextFontSize+symbolFontSize+otherTextFontSize));
+        }
         
         int lengthOfMass = Text.getLengthOfString(element.getWeight(), otherTextFont);
         String massName = lengthOfMass >= (getHitbox().width-textOffset) ? Text.ellipsisText(element.getWeight(), (int)getHitbox().width, otherTextFont) : element.getWeight();
         gd.setFont(otherTextFont);
-        gd.drawString(massName, (int)(getHitbox().x+textOffset), (int)(getHitbox().y+textOffset+textOffset+textOffset+otherTextFontSize+symbolFontSize+otherTextFontSize+otherTextFontSize));
+        if(showWeight){
+            gd.drawString(massName, (int)(getHitbox().x+textOffset), (int)(getHitbox().y+textOffset+textOffset+textOffset+otherTextFontSize+symbolFontSize+otherTextFontSize+otherTextFontSize));
+        }
         
         
         if(selected){
             gd.setColor(selectedColor);
-            gd.setStroke(new BasicStroke((float)strokeSize));
+            gd.setStroke(selectedStroke);
             gd.drawRect((int)getHitbox().x, (int)getHitbox().y, (int)getHitbox().width, (int)getHitbox().height);
         }
         
@@ -182,6 +196,7 @@ public class ElementTile extends Hitbox{
         
         symbolFont = new Font(Font.SANS_SERIF, 1, (int)atomicNumberFontSize);
         otherTextFont = new Font(Font.SANS_SERIF, 0, (int)otherTextFontNumber);
+        selectedStroke = new BasicStroke((int)strokeSize);
     }
 
     public Element getElement() {
@@ -317,5 +332,37 @@ public class ElementTile extends Hitbox{
 
     public void setSelectable(boolean selectable) {
         this.selectable = selectable;
+    }
+
+    public boolean isShowSymbol() {
+        return showSymbol;
+    }
+
+    public void setShowSymbol(boolean showSymbol) {
+        this.showSymbol = showSymbol;
+    }
+
+    public boolean isShowWeight() {
+        return showWeight;
+    }
+
+    public void setShowWeight(boolean showWeight) {
+        this.showWeight = showWeight;
+    }
+
+    public boolean isShowName() {
+        return showName;
+    }
+
+    public void setShowName(boolean showName) {
+        this.showName = showName;
+    }
+
+    public boolean isShowAtomNumber() {
+        return showAtomNumber;
+    }
+
+    public void setShowAtomNumber(boolean showAtomNumber) {
+        this.showAtomNumber = showAtomNumber;
     }
 }

@@ -23,14 +23,10 @@
  */
 package periodic.table.config;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
@@ -41,22 +37,7 @@ import periodic.table.Element;
  *
  * @author Alan Tsui
  */
-public class FileManagement {
-    public static void main(String[] args){
-        ArrayList<ArrayList<Element>> array = open();
-        for(int i=0;i<array.size();i++){
-            for(int j=0;j<array.get(i).size();j++){
-                if(!array.get(i).get(j).equals(Element.EMPTY_ELEMENT)){
-                    System.out.print("-");
-                }
-                else{
-                    System.out.print(" ");
-                }
-            }
-            System.out.println("");
-        }
-    }
-    
+public class FileManagement {   
     private static final String ROWS = "rows";
     private static final String COLUMNS = "columns";
     
@@ -117,7 +98,6 @@ public class FileManagement {
     private static ArrayList<ArrayList<Element>> read(JsonObject jsonObject){
         HashMap<String, Element> elements = new HashMap<>();
         JsonArray allElements = jsonObject.getJsonArray(ELEMENTS_ARRAY);
-        System.out.println(allElements.getJsonObject(0));
         int rows = allElements.getJsonObject(0).getInt(ROWS);
         int columns = allElements.getJsonObject(0).getInt(COLUMNS);
         for(int i=1;i<allElements.size();i++){
@@ -131,9 +111,11 @@ public class FileManagement {
             String meltingPoint = jsonElement.getString(MELTINGPOINT);
             String elections = jsonElement.getString(ELECTRONICCONFIGURATION);
             String yearDiscovered = jsonElement.getString(YEARDISCOVERED);
+            String bondingType = jsonElement.getString(BONDINGTYPE);
+            String density = jsonElement.getString(DENSITY);
             int row = jsonElement.getInt(ROW);
             int column = jsonElement.getInt(GROUP_COLUMN);
-            Element element = new Element(atomicNumber, symbol, name, weight, type, boilingPoint, meltingPoint, elections, yearDiscovered, column, row);
+            Element element = new Element(atomicNumber, symbol, name, weight, type, boilingPoint, meltingPoint, elections, yearDiscovered, bondingType, density, column, row);
             elements.put(row+""+column, element);
         }
         return sortElements(elements, rows, columns);

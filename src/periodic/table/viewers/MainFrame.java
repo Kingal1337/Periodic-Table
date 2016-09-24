@@ -24,8 +24,11 @@
 package periodic.table.viewers;
 
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import periodic.table.config.Config;
 
@@ -49,7 +52,14 @@ public class MainFrame extends JFrame implements ComponentListener{
     
     private void init(){
         addComponentListener(this);
-        previousDimensions = Config.MINIMUM_FRAME_SIZE;
+        previousDimensions = new Dimension(Config.MINIMUM_FRAME_SIZE);
+        
+        ArrayList<Image> images = new ArrayList<>();
+        images.add(new ImageIcon(MainFrame.class.getResource("/periodic/table/config/resources/icon16x16.png")).getImage());
+        images.add(new ImageIcon(MainFrame.class.getResource("/periodic/table/config/resources/icon24x24.png")).getImage());
+        images.add(new ImageIcon(MainFrame.class.getResource("/periodic/table/config/resources/icon32x32.png")).getImage());
+        images.add(new ImageIcon(MainFrame.class.getResource("/periodic/table/config/resources/icon64x64.png")).getImage());
+        setIconImages(images);
     }
     
     public void changePanel(APanel panel){
@@ -70,7 +80,7 @@ public class MainFrame extends JFrame implements ComponentListener{
         if(currentPanel != null){
             Dimension dimensions = getContentPane().getSize();
             currentPanel.resizePanel(previousDimensions, dimensions);
-            previousDimensions = new Dimension(dimensions);
+            previousDimensions.setSize(dimensions);
         }
     }
 

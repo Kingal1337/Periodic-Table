@@ -25,7 +25,6 @@ package periodic.table.config;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 
 /**
  *
@@ -43,6 +42,8 @@ public class Config {
     public static final String YEAR = "2016";
     
     public static final String TITLE = "Periodic Table"; 
+    
+    public static final String WIKI_LINK = "https://en.wikipedia.org/wiki";
     
     public static final Color UNKNOWN_COLOR = Color.GRAY;
     
@@ -71,7 +72,5 @@ public class Config {
     public static final Color TRANSITION_METAL = Color.decode("#DDBBBB");
     
     public static final Color POST_TRANSITION_METAL = Color.decode("#99DDCC");
-    
-//    public static final Font DEFAULT_ELEMENT_FONT = Font.createFont(0, fontStream);
     
 }
