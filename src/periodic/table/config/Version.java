@@ -53,7 +53,7 @@ public class Version {
      * bug fixes
      * typos
      */
-    private static final int FIXES = 0;
+    private static final int FIXES = 1;
     
     /**
      * don't let anyone instantiate this class

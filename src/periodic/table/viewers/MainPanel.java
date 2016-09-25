@@ -787,11 +787,13 @@ public class MainPanel extends APanel implements ActionListener, MouseListener, 
             }
         }
         if(temperatureNumberSelected){
-            if(Character.isDigit(keyChar) && (currentText.length()+1 <= 4 && currentTemperature < maxTemperature)){
+            if((currentText.isEmpty() && Character.isDigit(keyChar)) || (Character.isDigit(keyChar) && (currentText.length()+1 <= 4 && currentTemperature < maxTemperature))){
                 currentText+=keyChar;
-                currentTemperature = Integer.parseInt(currentText);
-                adjustTemperature(currentTemperature+"");
-                adjustSlider((int)currentTemperature);
+                if(!currentText.isEmpty()){
+                    currentTemperature = Integer.parseInt(currentText);
+                    adjustTemperature(currentTemperature+"");
+                    adjustSlider((int)currentTemperature);
+                }
             }
         }
         if(!temperatureNumberSelected){
