@@ -1,5 +1,5 @@
 # Periodic-Table
-A interactive periodic table
+An interactive periodic table
 
 Requires Alan Utilities!
 
